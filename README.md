@@ -1,2 +1,2 @@
-# impostro_project
-Importor project
+# impostor_project
+Impostor project
