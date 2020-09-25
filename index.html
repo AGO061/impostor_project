@@ -19,6 +19,7 @@
 
  };
 var game = new Phaser.Game(config);
+var player;
 
 function preload() {
    this.load.image('map', 'maps/sheld.png');
@@ -26,7 +27,7 @@ function preload() {
 }
 
 function create() {
-    this.add.image(960,540,'map');
+    this.add.image(960,540,'map').setScale(0.8);
     
 }
 
