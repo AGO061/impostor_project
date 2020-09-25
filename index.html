@@ -20,19 +20,56 @@
  };
 var game = new Phaser.Game(config);
 var player;
+var cursor;
 
 function preload() {
    this.load.image('map', 'maps/sheld.png');
-   this.load.spritesheet('playerSprite', 'animazioni/3D/Run_begin/3D_spritesheet_run_begin.png', { frameWidth: 64, frameHeight: 64 } );
+   this.load.spritesheet('playerSprite', 'animazioni/3D/Run-begin/3D_spritesheet_run_begin.png', { frameWidth: 64, frameHeight: 64 } );
 }
 
 function create() {
-    this.add.image(960,540,'map').setScale(0.8);
-    
+    this.add.image(960,540,'map').setScale(0.5);
+    this.add.sprite(game.width/2, game.height/2, 'playerSprite');    
+    cursor=this.input.keyboard.createCursorKeys();
+
+    //animazioni
+
+	this.anims.create({
+	key:'right',
+	frames: this.anims.generateFrameNumbers('playerSprite', {start:0, end:3}),
+	frameRate: 20,
+	repeat: -1
+
+	})
+	this.anims.create({
+	key:'left',
+	frames: this.anims.generateFrameNumbers('playerSprite', {start:0, end:3}),
+	frameRate: 20,
+	repeat: -1
+
+	})
+	this.anims.create({
+	key:'turn',
+	frames: [{key: 'playerSprite', frame:4}],
+	frameRate: 20
+	})
 }
 
+
+
 function update() {
-    //
+    if (cursor.left.isDown) {
+    	this.player.flipX=false;
+	player.setVelocityX(-170);
+	player.anims.play('left',true);
+    } else if (cursor.right.isDown) {
+    	this.player.flipX=true,
+	player.setVelocityX(170);
+	player.anims.play('right',true);
+    }else {
+            player.setVelocityX(0);
+            player.anims.play('turn');
+    }
 }
 	</script>
       </body>
