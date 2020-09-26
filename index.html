@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
+      	<script src="js/index.js"></script>
+      <link rel="stylesheet" href="css/style.css" type="text/css"/>
+      </head>
+    <body>
+	<script>
+var config = {
+        type: Phaser.AUTO,
+        width:1582,
+    	height: 890,
+        physics: {
+            default: 'arcade',
+            arcade: {
+                //gravity: { y: 300 },
+                debug: false
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+
+var player;
+var cursor;
+var platform;
+var r;//per la animazione da fermo del giocatore
+
+var game = new Phaser.Game(config);
+
+function preload() {
+   this.load.image('map', 'maps/sheld.png');
+   this.load.spritesheet('playerSprite', 'animazioni/3D/Running/running-spritesheet-fixed.png', { frameWidth: 64, frameHeight: 64 } );
+}
+
+function create() {   
+    
+	platform = this.physics.add.staticGroup();
+	platform.create(791,445,'map').setScale(0.5).refreshBody();
+ 	player = this.physics.add.sprite(550, 350, 'playerSprite');
+	player.setBounce(0.2);
+        player.setCollideWorldBounds(true);	
+
+
+    //animazioni
+	this.anims.create({
+	key:'left',
+	frames: this.anims.generateFrameNumbers('playerSprite', {start:0, end:11}),
+	frameRate: 24,
+	repeat: -1
+
+	});
+	this.anims.create({
+		key:'turnl',
+		frames: [{key: 'playerSprite', frame:11}],
+		frameRate: 10
+		});
+	this.anims.create({
+		key:'turnr',
+		frames: [{key: 'playerSprite', frame:12}],
+		frameRate: 10
+		});
+
+	this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('playerSprite', { start: 12, end: 23 }),
+            frameRate: 24,
+            repeat: -1
+        });
+	cursor=this.input.keyboard.createCursorKeys();
+	//this.physics.add.collider(player, platform);
+}
+
+
+
+function update() {
+	if(cursor.right.isDown) {
+	r=true;
+}else if(cursor.left.isDown){
+	r=false;
+}
+    if (cursor.left.isDown) {
+	player.setVelocityX(-170);
+	player.anims.play('left',true);
+    } else if (cursor.right.isDown) {
+	player.setVelocityX(170);
+	player.anims.play('right',true);
+    }else {
+	if(r==true){
+            player.setVelocityX(0);
+            player.anims.play('turnr');
+	}else{
+	    player.setVelocityX(0);
+            player.anims.play('turnl');
+	}
+    }
+}
+	</script>
+      </body>
+  </html>
