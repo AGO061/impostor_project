@@ -35,7 +35,10 @@ var game = new Phaser.Game(config);
 
 function preload() {
    this.load.image('map', 'maps/sheld.png');
+
    this.load.spritesheet('playerSprite', 'animazioni/3D/Running/running-spritesheet-fixed.png', { frameWidth: 64, frameHeight: 64 } );
+
+ 
 }
 
 function create() {   
@@ -50,26 +53,34 @@ function create() {
     //animazioni
 	this.anims.create({
 	key:'left',
+
 	frames: this.anims.generateFrameNumbers('playerSprite', {start:0, end:11}),
 	frameRate: 24,
+
 	repeat: -1
 
 	});
 	this.anims.create({
 		key:'turnl',
+
 		frames: [{key: 'playerSprite', frame:11}],
+
 		frameRate: 10
 		});
 	this.anims.create({
 		key:'turnr',
+
 		frames: [{key: 'playerSprite', frame:12}],
+  
 		frameRate: 10
 		});
 
 	this.anims.create({
             key: 'right',
+
             frames: this.anims.generateFrameNumbers('playerSprite', { start: 12, end: 23 }),
             frameRate: 24,
+
             repeat: -1
         });
 	cursor=this.input.keyboard.createCursorKeys();
@@ -102,4 +113,6 @@ function update() {
 }
 	</script>
       </body>
+
   </html>
+
