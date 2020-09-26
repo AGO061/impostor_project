@@ -9,12 +9,12 @@
 	<script>
 var config = {
         type: Phaser.AUTO,
-        width:1000,
-    	height: 800,
+        width:1582,
+    	height: 890,
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 300 },
+                //gravity: { y: 300 },
                 debug: false
             }
         },
@@ -29,62 +29,78 @@ var config = {
 var player;
 var cursor;
 var platform;
+var r;//per la animazione da fermo del giocatore
 
 var game = new Phaser.Game(config);
 
 function preload() {
    this.load.image('map', 'maps/sheld.png');
-   this.load.spritesheet('playerSprite', 'animazioni/3D/Run-begin/3D_spritesheet_run_begin.png', { frameWidth: 64, frameHeight: 64 } );
+   this.load.spritesheet('playerSprite', 'animazioni/3D/Run-begin/runBeginSingleIMage/3D_spritesheet_run_begin.png', { frameWidth: 64, frameHeight: 64 } );
 }
 
 function create() {   
     
 	platform = this.physics.add.staticGroup();
-	platform.create(960,540,'map').setScale(0.5).refreshBody();
- 	player = this.physics.add.sprite(game.width/2,game.height/2, 'playerSprite'); 
+	platform.create(791,445,'map').setScale(0.5).refreshBody();
+ 	player = this.physics.add.sprite(550, 350, 'playerSprite');
 	player.setBounce(0.2);
         player.setCollideWorldBounds(true);	
+
+
     //animazioni
-
-	this.anims.create({
-	key:'right',
-	frames: this.anims.generateFrameNumbers('playerSprite', {start:0, end:3}),
-	frameRate: 20,
-	repeat: -1
-
-	})
 	this.anims.create({
 	key:'left',
 	frames: this.anims.generateFrameNumbers('playerSprite', {start:0, end:3}),
-	frameRate: 20,
+	frameRate: 10,
 	repeat: -1
 
-	})
+	});
 	this.anims.create({
-	key:'turn',
-	frames: [{key: 'playerSprite', frame:4}],
-	frameRate: 20
-	})
-cursor=this.input.keyboard.createCursorKeys();
+		key:'turnl',
+		frames: [{key: 'playerSprite', frame:4}],
+		frameRate: 10
+		});
+	this.anims.create({
+		key:'turnr',
+		frames: [{key: 'playerSprite', frame:5}],
+		frameRate: 10
+		});
+
+	this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('playerSprite', { start: 6, end: 9 }),
+            frameRate: 10,
+            repeat: -1
+        });
+	cursor=this.input.keyboard.createCursorKeys();
+	//this.physics.add.collider(player, platform);
 }
 
 
 
 function update() {
-	
+	if(cursor.right.isDown) {
+	r=true;
+}else if(cursor.left.isDown){
+	r=false;
+}
     if (cursor.left.isDown) {
-    	//this.player.flipX=false;
 	player.setVelocityX(-170);
 	player.anims.play('left',true);
     } else if (cursor.right.isDown) {
-    	//this.player.flipX=true,
 	player.setVelocityX(170);
 	player.anims.play('right',true);
-    }/*else {
+    }else {
+	if(r==true){
             player.setVelocityX(0);
-            player.anims.play('turn');
-    }*/
+            player.anims.play('turnr');
+	}else{
+	    player.setVelocityX(0);
+            player.anims.play('turnl');
+	}
+    }
 }
 	</script>
       </body>
   </html>
+
