@@ -99,4 +99,4 @@ async def save(ctx):
     _save()
     await ctx.send("Saved!")
 
-bot.run("NzYwNTI0NDc1ODExNzU4MTIw.X3NTnA._8_eRWQRhxAHn8mva_3X_-IYmBI")
+bot.run("token")
